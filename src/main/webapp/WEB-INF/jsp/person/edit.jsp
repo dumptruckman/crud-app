@@ -27,6 +27,7 @@
         </c:if>
         <form action="${pageContext.request.contextPath}/person/edit" method="POST">
             <input type="hidden" name="personId" value="${person.personId}"/>
+            <input type="hidden" name="addressId" value="${address.addressId}"/>
             <br/>
             <label for="firstName">First Name:</label>
             <input type="text" name="firstName" value="${person.firstName}"/>
@@ -38,16 +39,16 @@
             <input type="text" name="emailAddress" value="${person.emailAddress}"/>
             <br/>
             <label for="streetAddress">Street Address:</label>
-            <input type="text" name="streetAddress" value="${person.streetAddress}"/>
+            <input type="text" name="streetAddress" value="${person.address.streetAddress}"/>
             <br/>
             <label for="city">City:</label>
-            <input type="text" name="city" value="${person.city}"/>
+            <input type="text" name="city" value="${address.city}"/>
             <br/>
             <label for="state">State:</label>
-            <input type="text" name="state" value="${person.state}"/>
+            <input type="text" name="state" value="${address.state}"/>
             <br/>
             <label for="zipCode">Zip Code:</label>
-            <input type="text" name="zipCode" value="${person.zipCode}"/>
+            <input type="text" name="zipCode" value="${address.zipCode}"/>
             <br/>
             <input type="submit" name="Submit" value="Submit"/>
         </form>

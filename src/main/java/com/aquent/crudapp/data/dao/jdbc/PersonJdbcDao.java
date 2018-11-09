@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
+import com.aquent.crudapp.data.dao.PersonDao;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,7 +14,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.aquent.crudapp.data.dao.PersonDao;
 import com.aquent.crudapp.domain.Person;
 
 /**
@@ -21,14 +21,38 @@ import com.aquent.crudapp.domain.Person;
  */
 public class PersonJdbcDao implements PersonDao {
 
-    private static final String SQL_LIST_PEOPLE = "SELECT * FROM person ORDER BY first_name, last_name, person_id";
-    private static final String SQL_READ_PERSON = "SELECT * FROM person WHERE person_id = :personId";
-    private static final String SQL_DELETE_PERSON = "DELETE FROM person WHERE person_id = :personId";
-    private static final String SQL_UPDATE_PERSON = "UPDATE person SET (first_name, last_name, email_address, street_address, city, state, zip_code)"
-                                                  + " = (:firstName, :lastName, :emailAddress, :streetAddress, :city, :state, :zipCode)"
-                                                  + " WHERE person_id = :personId";
-    private static final String SQL_CREATE_PERSON = "INSERT INTO person (first_name, last_name, email_address, street_address, city, state, zip_code)"
-                                                  + " VALUES (:firstName, :lastName, :emailAddress, :streetAddress, :city, :state, :zipCode)";
+    private static final String SQL_LIST_PEOPLE
+            = "SELECT * FROM person"
+            + "  ORDER BY first_name, last_name, person_id";
+    private static final String SQL_READ_PERSON
+            = "SELECT * FROM person"
+            + "  WHERE person_id = :personId";
+    private static final String SQL_DELETE_PERSON
+            = "DELETE FROM person"
+            + "  WHERE person_id = :personId";
+    private static final String SQL_UPDATE_PERSON
+            = "UPDATE person"
+            + "  SET ("
+            + "    first_name,"
+            + "    last_name,"
+            + "    email_address"
+            + "  ) = ("
+            + "    :firstName,"
+            + "    :lastName,"
+            + "    :emailAddress"
+            + "  )"
+            + "  WHERE person_id = :personId";
+    private static final String SQL_CREATE_PERSON
+            = "INSERT INTO person"
+            + "  ("
+            + "    first_name,"
+            + "    last_name,"
+            + "    email_address"
+            + "  ) VALUES ("
+            + "    :firstName,"
+            + "    :lastName,"
+            + "    :emailAddress"
+            + "  )";
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -80,10 +104,6 @@ public class PersonJdbcDao implements PersonDao {
             person.setFirstName(rs.getString("first_name"));
             person.setLastName(rs.getString("last_name"));
             person.setEmailAddress(rs.getString("email_address"));
-            person.setStreetAddress(rs.getString("street_address"));
-            person.setCity(rs.getString("city"));
-            person.setState(rs.getString("state"));
-            person.setZipCode(rs.getString("zip_code"));
             return person;
         }
     }

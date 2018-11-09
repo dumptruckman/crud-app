@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import com.aquent.crudapp.data.dao.AddressDao;
+import com.aquent.crudapp.domain.Address;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +22,15 @@ import com.aquent.crudapp.domain.Person;
 public class DefaultPersonService implements PersonService {
 
     private PersonDao personDao;
+    private AddressDao addressDao;
     private Validator validator;
 
     public void setPersonDao(PersonDao personDao) {
         this.personDao = personDao;
+    }
+
+    public void setAddressDao(AddressDao addressDao) {
+        this.addressDao = addressDao;
     }
 
     public void setValidator(Validator validator) {
@@ -39,19 +46,26 @@ public class DefaultPersonService implements PersonService {
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Person readPerson(Integer id) {
-        return personDao.readPerson(id);
+        Person person = personDao.readPerson(id);
+        Address address = addressDao.readAddressForPerson(id);
+        person.setAddress(address);
+        return person;
     }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
     public Integer createPerson(Person person) {
-        return personDao.createPerson(person);
+        Integer personId = personDao.createPerson(person);
+        person.setPersonId(personId);
+        addressDao.createAddressForPerson(person);
+        return personId;
     }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
     public void updatePerson(Person person) {
         personDao.updatePerson(person);
+        addressDao.updateAddress(person.getAddress());
     }
 
     @Override
