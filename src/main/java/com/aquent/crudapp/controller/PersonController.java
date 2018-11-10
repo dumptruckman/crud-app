@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import com.aquent.crudapp.domain.Address;
 import com.aquent.crudapp.domain.AddressType;
+import com.aquent.crudapp.domain.Client;
 import com.aquent.crudapp.service.AddressService;
 import com.aquent.crudapp.service.PersonService;
 import org.springframework.stereotype.Controller;
@@ -70,7 +71,6 @@ public class PersonController {
      * @return redirect, or create view with errors
      */
     @RequestMapping(value = "create", method = RequestMethod.POST)
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
     public ModelAndView create(Person person, Address address) {
         person.setAddress(address);
         List<String> errors = personService.validatePerson(person);
@@ -79,12 +79,16 @@ public class PersonController {
             personService.createPerson(person);
             return new ModelAndView("redirect:/person/list");
         } else {
-            ModelAndView mav = new ModelAndView("person/create");
-            mav.addObject("person", person);
-            mav.addObject("address", address);
-            mav.addObject("errors", errors);
-            return mav;
+            return createErrorMav("person/create", person, address, errors);
         }
+    }
+
+    private ModelAndView createErrorMav(String path, Person person, Address address, List<String> errors) {
+        ModelAndView mav = new ModelAndView(path);
+        mav.addObject("person", person);
+        mav.addObject("address", address);
+        mav.addObject("errors", errors);
+        return mav;
     }
 
     /**
@@ -109,7 +113,7 @@ public class PersonController {
      * On failure, the form is redisplayed with the validation errors.
      *
      * @param person populated form bean for the person
-     * @param address populated for bena for the address
+     * @param address populated for bean for the address
      * @return redirect, or edit view with errors
      */
     @RequestMapping(value = "edit", method = RequestMethod.POST)
@@ -121,10 +125,7 @@ public class PersonController {
             personService.updatePerson(person);
             return new ModelAndView("redirect:/person/list");
         } else {
-            ModelAndView mav = new ModelAndView("person/edit");
-            mav.addObject("person", person);
-            mav.addObject("errors", errors);
-            return mav;
+            return createErrorMav("person/edit", person, address, errors);
         }
     }
 
@@ -154,6 +155,7 @@ public class PersonController {
     @RequestMapping(value = "delete", method = RequestMethod.POST)
     public String delete(@RequestParam String command, @RequestParam Integer personId, @RequestParam Integer addressId) {
         if (COMMAND_DELETE.equals(command)) {
+            // TODO figure out a way to make these transactional
             personService.deletePerson(personId);
             addressService.deleteAddress(addressId);
         }

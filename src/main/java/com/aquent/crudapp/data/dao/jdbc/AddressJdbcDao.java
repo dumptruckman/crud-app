@@ -2,6 +2,8 @@ package com.aquent.crudapp.data.dao.jdbc;
 
 import com.aquent.crudapp.data.dao.AddressDao;
 import com.aquent.crudapp.domain.Address;
+import com.aquent.crudapp.domain.AddressType;
+import com.aquent.crudapp.domain.Client;
 import com.aquent.crudapp.domain.Person;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -33,6 +35,34 @@ public class AddressJdbcDao implements AddressDao {
             + "  ) ON"
             + "    pa.address_id = a.address_id"
             + "  WHERE pa.person_id = :personId";
+    private static final String SQL_READ_PHYSICAL_ADDRESS_FOR_CLIENT
+            = "SELECT a.*, t.* FROM address a"
+            + "  INNER JOIN ("
+            + "    client_address ca"
+            + "    INNER JOIN"
+            + "      address_type t"
+            + "    ON"
+            + "      ca.address_type_id = t.address_type_id"
+            + "  ) ON"
+            + "    ca.address_id = a.address_id"
+            + "  WHERE"
+            + "     ca.client_id = :clientId"
+            + "  AND"
+            + "     t.type_name = 'Physical'";
+    private static final String SQL_READ_MAILING_ADDRESS_FOR_CLIENT
+            = "SELECT a.*, t.* FROM address a"
+            + "  INNER JOIN ("
+            + "    client_address ca"
+            + "    INNER JOIN"
+            + "      address_type t"
+            + "    ON"
+            + "      ca.address_type_id = t.address_type_id"
+            + "  ) ON"
+            + "    ca.address_id = a.address_id"
+            + "  WHERE"
+            + "     ca.client_id = :clientId"
+            + "  AND"
+            + "     t.type_name = 'Mailing'";
     private static final String SQL_DELETE_ADDRESS
             = "DELETE FROM address"
             + "  WHERE address_id = :addressId";
@@ -58,10 +88,10 @@ public class AddressJdbcDao implements AddressDao {
             + "    state,"
             + "    zip_code"
             + "  ) VALUES ("
-            + "    :address.streetAddress,"
-            + "    :address.city,"
-            + "    :address.state,"
-            + "    :address.zipCode"
+            + "    :streetAddress,"
+            + "    :city,"
+            + "    :state,"
+            + "    :zipCode"
             + "  )";
     private static final String SQL_CREATE_PERSON_ADDRESS
             = "INSERT INTO person_address"
@@ -74,6 +104,28 @@ public class AddressJdbcDao implements AddressDao {
             + "    :addressId,"
             + "    (SELECT address_type_id FROM address_type WHERE type_name = 'Personal')"
             + "  )";
+    private static final String SQL_CREATE_PHYSICAL_CLIENT_ADDRESS
+            = "INSERT INTO client_address"
+            + "  ("
+            + "    client_id,"
+            + "    address_id,"
+            + "    address_type_id"
+            + "  ) VALUES ("
+            + "    :clientId,"
+            + "    :addressId,"
+            + "    (SELECT address_type_id FROM address_type WHERE type_name = 'Physical')"
+            + "  )";
+    private static final String SQL_CREATE_MAILING_CLIENT_ADDRESS
+            = "INSERT INTO client_address"
+            + "  ("
+            + "    client_id,"
+            + "    address_id,"
+            + "    address_type_id"
+            + "  ) VALUES ("
+            + "    :clientId,"
+            + "    :addressId,"
+            + "    (SELECT address_type_id FROM address_type WHERE type_name = 'Mailing')"
+            + "  )";
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -85,6 +137,18 @@ public class AddressJdbcDao implements AddressDao {
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Address readAddressForPerson(Integer personId) {
         return namedParameterJdbcTemplate.queryForObject(SQL_READ_ADDRESS_FOR_PERSON, Collections.singletonMap("personId", personId), new AddressRowMapper());
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public Address readPhysicalAddressForClient(Integer clientId) {
+        return namedParameterJdbcTemplate.queryForObject(SQL_READ_PHYSICAL_ADDRESS_FOR_CLIENT, Collections.singletonMap("clientId", clientId), new AddressRowMapper());
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public Address readMailingAddressForClient(Integer clientId) {
+        return namedParameterJdbcTemplate.queryForObject(SQL_READ_MAILING_ADDRESS_FOR_CLIENT, Collections.singletonMap("clientId", clientId), new AddressRowMapper());
     }
 
     @Override
@@ -103,7 +167,7 @@ public class AddressJdbcDao implements AddressDao {
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
     public Integer createAddressForPerson(Person person) {
-        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(person);
+        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(person.getAddress());
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(SQL_CREATE_ADDRESS, parameterSource, keyHolder);
@@ -112,6 +176,30 @@ public class AddressJdbcDao implements AddressDao {
         parameterMap.put("personId", person.getPersonId());
         parameterMap.put("addressId", keyHolder.getKey().intValue());
         namedParameterJdbcTemplate.update(SQL_CREATE_PERSON_ADDRESS, parameterMap);
+
+        return keyHolder.getKey().intValue();
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
+    public Integer createPhysicalAddressForClient(Client client) {
+        return createAddressForClient(client, new BeanPropertySqlParameterSource(client.getPhysicalAddress()), SQL_CREATE_PHYSICAL_CLIENT_ADDRESS);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
+    public Integer createMailingAddressForClient(Client client) {
+        return createAddressForClient(client, new BeanPropertySqlParameterSource(client.getMailingAddress()), SQL_CREATE_MAILING_CLIENT_ADDRESS);
+    }
+
+    private Integer createAddressForClient(Client client, BeanPropertySqlParameterSource parameterSource, String sqlStatement) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        namedParameterJdbcTemplate.update(SQL_CREATE_ADDRESS, parameterSource, keyHolder);
+
+        Map<String, Integer> parameterMap = new HashMap<>();
+        parameterMap.put("clientId", client.getClientId());
+        parameterMap.put("addressId", keyHolder.getKey().intValue());
+        namedParameterJdbcTemplate.update(sqlStatement, parameterMap);
 
         return keyHolder.getKey().intValue();
     }
