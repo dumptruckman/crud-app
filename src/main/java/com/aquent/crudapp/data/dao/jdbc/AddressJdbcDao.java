@@ -23,10 +23,14 @@ import java.util.Map;
 public class AddressJdbcDao implements AddressDao {
 
     private static final String SQL_READ_ADDRESS_FOR_PERSON
-            = "SELECT a.* FROM address a"
-            + "  INNER JOIN"
+            = "SELECT a.*, t.* FROM address a"
+            + "  INNER JOIN ("
             + "    person_address pa"
-            + "  ON"
+            + "    INNER JOIN"
+            + "      address_type t"
+            + "    ON"
+            + "      pa.address_type_id = t.address_type_id"
+            + "  ) ON"
             + "    pa.address_id = a.address_id"
             + "  WHERE pa.person_id = :personId";
     private static final String SQL_DELETE_ADDRESS
@@ -63,10 +67,12 @@ public class AddressJdbcDao implements AddressDao {
             = "INSERT INTO person_address"
             + "  ("
             + "    person_id,"
-            + "    address_id"
+            + "    address_id,"
+            + "    address_type_id"
             + "  ) VALUES ("
             + "    :personId,"
-            + "    :addressId"
+            + "    :addressId,"
+            + "    (SELECT address_type_id FROM address_type WHERE type_name = 'Personal')"
             + "  )";
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -123,6 +129,7 @@ public class AddressJdbcDao implements AddressDao {
             address.setCity(rs.getString("city"));
             address.setState(rs.getString("state"));
             address.setZipCode(rs.getString("zip_code"));
+            address.setAddressType(AddressType.fromTypeName(rs.getString("type_name")));
             return address;
         }
     }

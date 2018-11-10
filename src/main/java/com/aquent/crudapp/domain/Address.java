@@ -23,6 +23,9 @@ public class Address {
     @Size(min = 5, max = 5, message = "Zip code is required with length 5")
     private String zipCode;
 
+    @NotNull
+    private AddressType addressType;
+
     public Integer getAddressId() {
         return addressId;
     }
@@ -61,6 +64,14 @@ public class Address {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public AddressType getAddressType() {
+        return addressType;
+    }
+
+    public void setAddressType(AddressType addressType) {
+        this.addressType = addressType;
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import com.aquent.crudapp.domain.Address;
+import com.aquent.crudapp.domain.AddressType;
 import com.aquent.crudapp.service.AddressService;
 import com.aquent.crudapp.service.PersonService;
 import org.springframework.stereotype.Controller;
@@ -52,7 +53,9 @@ public class PersonController {
     public ModelAndView create() {
         ModelAndView mav = new ModelAndView("person/create");
         mav.addObject("person", new Person());
-        mav.addObject("address", new Address());
+        Address address = new Address();
+        address.setAddressType(AddressType.PERSONAL);
+        mav.addObject("address", address);
         mav.addObject("errors", new ArrayList<String>());
         return mav;
     }
@@ -78,6 +81,7 @@ public class PersonController {
         } else {
             ModelAndView mav = new ModelAndView("person/create");
             mav.addObject("person", person);
+            mav.addObject("address", address);
             mav.addObject("errors", errors);
             return mav;
         }

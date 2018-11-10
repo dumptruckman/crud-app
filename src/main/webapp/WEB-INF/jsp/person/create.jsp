@@ -26,6 +26,7 @@
             </ul>
         </c:if>
         <form action="${pageContext.request.contextPath}/person/create" method="POST">
+            <input type="hidden" name="addressType" value="${address.addressType}"/>
             <br/>
             <label for="firstName">First Name:</label>
             <input type="text" name="firstName" value="${person.firstName}"/>

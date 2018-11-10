@@ -15,6 +15,8 @@ INSERT INTO person (
 INSERT INTO address_type (
     type_name
 ) VALUES (
+    'Personal'
+), (
     'Physical'
 ), (
     'Mailing'
@@ -39,11 +41,14 @@ INSERT INTO address (
 
 INSERT INTO person_address (
     person_id,
-    address_id
+    address_id,
+    address_type_id
 ) VALUES (
+    0,
     0,
     0
 ), (
     1,
-    1
+    1,
+    0
 );

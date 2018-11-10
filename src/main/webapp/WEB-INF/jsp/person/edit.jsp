@@ -28,6 +28,7 @@
         <form action="${pageContext.request.contextPath}/person/edit" method="POST">
             <input type="hidden" name="personId" value="${person.personId}"/>
             <input type="hidden" name="addressId" value="${address.addressId}"/>
+            <input type="hidden" name="addressType" value="${address.addressType}"/>
             <br/>
             <label for="firstName">First Name:</label>
             <input type="text" name="firstName" value="${person.firstName}"/>
