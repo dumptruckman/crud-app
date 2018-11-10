@@ -18,4 +18,6 @@
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp" />
 
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+
 </beans>

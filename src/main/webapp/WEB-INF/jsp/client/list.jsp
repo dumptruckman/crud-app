@@ -1,46 +1,70 @@
 <%@taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
 <%@taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions'%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
+<!doctype html>
 
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+        <spring:url value="/resources/layout.css" var="layoutCSS" />
+
         <title>Client Listing</title>
     </head>
     <body>
-        <h1>Client Listing</h1>
-        <p><a href="${pageContext.request.contextPath}/client/create">Create New Client</a></p>
-        <c:choose>
-            <c:when test="${fn:length(clients) gt 0}">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Company Name</th>
-                            <th>Website</th>
-                            <th>Phone Number</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${clients}" var="client">
+        <%@include file="../layout.jsp" %>
+        <div class="container">
+            <h1>Client Listing</h1>
+            <nav class="nav">
+                <a class="nav-link" href="${pageContext.request.contextPath}/client/create">Create New Client</a>
+            </nav>
+            <c:choose>
+                <c:when test="${fn:length(clients) gt 0}">
+                    <table id="client-table" class="table">
+                        <thead>
                             <tr>
-                                <td>${client.companyName}</td>
-                                <td>${client.website}</td>
-                                <td>${client.phoneNumber}</td>
-                                <td>
-                                    <a href="${pageContext.request.contextPath}/client/edit/${client.clientId}">Edit Client</a>
-                                    <a href="${pageContext.request.contextPath}/client/delete/${client.clientId}">Delete Client</a>
-                                </td>
+                                <th>Company Name</th>
+                                <th>Website</th>
+                                <th>Phone Number</th>
+                                <th>Actions</th>
                             </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </c:when>
-            <c:otherwise>
-                <p>No results found.</p>
-            </c:otherwise>
-        </c:choose>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${clients}" var="client">
+                                <tr>
+                                    <td>${client.companyName}</td>
+                                    <td>${client.website}</td>
+                                    <td>${client.phoneNumber}</td>
+                                    <td>
+                                        <nav class="nav">
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/client/edit/${client.clientId}">Edit Client</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/client/delete/${client.clientId}">Delete Client</a>
+                                        </nav>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </c:when>
+                <c:otherwise>
+                    <p>No results found.</p>
+                </c:otherwise>
+            </c:choose>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('#client-table').DataTable();
+                $('#nav-client').addClass('active');
+            });
+        </script>
     </body>
 </html>

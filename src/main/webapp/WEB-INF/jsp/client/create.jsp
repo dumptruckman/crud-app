@@ -1,64 +1,85 @@
 <%@taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <%@taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions'%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
+<!doctype html>
 
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <spring:url value="/resources/layout.css" var="layoutCSS" />
+    
         <title>Create Client</title>
     </head>
     <body>
-        <h1>Create Client</h1>
-        <c:if test="${fn:length(errors) gt 0}">
-            <p>Please correct the following errors in your submission:</p>
-            <ul>
-                <c:forEach items="${errors}" var="error">
-                    <li>${error}</li>
-                </c:forEach>
-            </ul>
-        </c:if>
-        <form action="${pageContext.request.contextPath}/client/create" method="POST">
-            <br/>
-            <label for="companyName">Company Name:</label>
-            <input id="companyName" type="text" name="companyName" value="${client.companyName}"/>
-            <br/>
-            <label for="website">Website:</label>
-            <input id="website" type="text" name="website" value="${client.website}"/>
-            <br/>
-            <label for="phoneNumber">Phone Number:</label>
-            <input id="phoneNumber" type="text" name="phoneNumber" value="${client.phoneNumber}"/>
-            <br/>
-            <h2>Physical Address</h2>
-            <input type="hidden" name="addressType" value="${physicalAddress.addressType}"/>
-            <label for="physicalStreetAddress">Street Address:</label>
-            <input id="physicalStreetAddress" type="text" name="streetAddress" value="${physicalAddress.streetAddress}"/>
-            <br/>
-            <label for="physicalCity">City:</label>
-            <input id="physicalCity" type="text" name="city" value="${physicalAddress.city}"/>
-            <br/>
-            <label for="physicalState">State:</label>
-            <input id="physicalState" type="text" name="state" value="${physicalAddress.state}"/>
-            <br/>
-            <label for="physicalZipCode">Zip Code:</label>
-            <input id="physicalZipCode" type="text" name="zipCode" value="${physicalAddress.zipCode}"/>
-            <br/>
-            <h2>Mailing Address</h2>
-            <input type="hidden" name="addressType" value="${mailingAddress.addressType}"/>
-            <label for="mailingStreetAddress">Street Address:</label>
-            <input id="mailingStreetAddress" type="text" name="streetAddress" value="${mailingAddress.streetAddress}"/>
-            <br/>
-            <label for="mailingCity">City:</label>
-            <input id="mailingCity" type="text" name="city" value="${mailingAddress.city}"/>
-            <br/>
-            <label for="mailingState">State:</label>
-            <input id="mailingState" type="text" name="state" value="${mailingAddress.state}"/>
-            <br/>
-            <label for="mailingZipCode">Zip Code:</label>
-            <input id="mailingZipCode" type="text" name="zipCode" value="${mailingAddress.zipCode}"/>
-            <br/>
-            <input type="submit" name="Submit" value="Submit"/>
-        </form>
+        <%@include file="../layout.jsp" %>
+        <div class="container">
+            <h1>Create Client</h1>
+            <c:if test="${fn:length(errors) gt 0}">
+                <p>Please correct the following errors in your submission:</p>
+                <ul>
+                    <c:forEach items="${errors}" var="error">
+                        <li>${error}</li>
+                    </c:forEach>
+                </ul>
+            </c:if>
+            <form action="${pageContext.request.contextPath}/client/create" method="POST">
+                <div class="form-group">
+                    <label for="companyName">Company Name:</label>
+                    <input id="companyName" class="form-control" type="text" name="companyName" value="${client.companyName}"/>
+                </div>
+                <div class="form-group">
+                    <label for="website">Website:</label>
+                    <input id="website" class="form-control" type="text" name="website" value="${client.website}"/>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number:</label>
+                    <input id="phoneNumber" class="form-control" type="text" name="phoneNumber" value="${client.phoneNumber}"/>
+                </div>
+                <h2>Physical Address</h2>
+                <input type="hidden" name="addressType" value="${physicalAddress.addressType}"/>
+                <div class="form-group">
+                    <label for="physicalStreetAddress">Street Address:</label>
+                    <input id="physicalStreetAddress" class="form-control" type="text" name="streetAddress" value="${physicalAddress.streetAddress}"/>
+                </div>
+                <div class="form-group">
+                    <label for="physicalCity">City:</label>
+                    <input id="physicalCity" class="form-control" type="text" name="city" value="${physicalAddress.city}"/>
+                </div>
+                <div class="form-group">
+                    <label for="physicalState">State:</label>
+                    <input id="physicalState" class="form-control" type="text" name="state" value="${physicalAddress.state}"/>
+                </div>
+                <div class="form-group">
+                    <label for="physicalZipCode">Zip Code:</label>
+                    <input id="physicalZipCode" class="form-control" type="text" name="zipCode" value="${physicalAddress.zipCode}"/>
+                </div>
+                <h2>Mailing Address</h2>
+                <input type="hidden" name="addressType" value="${mailingAddress.addressType}"/>
+                <div class="form-group">
+                    <label for="mailingStreetAddress">Street Address:</label>
+                    <input id="mailingStreetAddress" class="form-control" type="text" name="streetAddress" value="${mailingAddress.streetAddress}"/>
+                </div>
+                <div class="form-group">
+                    <label for="mailingCity">City:</label>
+                    <input id="mailingCity" class="form-control" type="text" name="city" value="${mailingAddress.city}"/>
+                </div>
+                <div class="form-group">
+                    <label for="mailingState">State:</label>
+                    <input id="mailingState" class="form-control" type="text" name="state" value="${mailingAddress.state}"/>
+                </div>
+                <div class="form-group">
+                    <label for="mailingZipCode">Zip Code:</label>
+                    <input id="mailingZipCode" class="form-control" type="text" name="zipCode" value="${mailingAddress.zipCode}"/>
+                </div>
+                <button class="btn btn-primary" type="submit" name="Submit" value="Submit">Submit</button>
+            </form>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </body>
 </html>
