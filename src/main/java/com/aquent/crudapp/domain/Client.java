@@ -2,6 +2,7 @@ package com.aquent.crudapp.domain;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * The client entity corresponding to the "client" table in the database.
@@ -27,6 +28,9 @@ public class Client {
 
     @NotNull
     private Address mailingAddress;
+
+    @NotNull
+    private List<Person> contacts;
 
     public Integer getClientId() {
         return clientId;
@@ -79,6 +83,15 @@ public class Client {
 
     public void setMailingAddress(@NotNull Address mailingAddress) {
         this.mailingAddress = mailingAddress;
+    }
+
+    @NotNull
+    public List<Person> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(@NotNull List<Person> contacts) {
+        this.contacts = contacts;
     }
 
     @Override

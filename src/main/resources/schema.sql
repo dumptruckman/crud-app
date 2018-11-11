@@ -58,3 +58,16 @@ CREATE TABLE client_address (
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
+
+CREATE TABLE contact (
+    contact_id integer IDENTITY,
+    person_id integer NOT NULL,
+    client_id integer NOT NULL,
+    CONSTRAINT u_contact UNIQUE (person_id),
+    CONSTRAINT fk_contact_client_id FOREIGN KEY (client_id) REFERENCES client(client_id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT fk_contact_person_id FOREIGN KEY (person_id) REFERENCES person(person_id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);

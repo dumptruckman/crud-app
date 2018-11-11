@@ -26,6 +26,9 @@ public class Person {
     @NotNull
     private Address address;
 
+    @NotNull
+    private Client client;
+
     public Integer getPersonId() {
         return personId;
     }
@@ -66,13 +69,23 @@ public class Person {
         this.address = address;
     }
 
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
-                "firstName='" + firstName + '\'' +
+                "personId=" + personId +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", emailAddress='" + emailAddress + '\'' +
                 ", address=" + address +
-                "} " + super.toString();
+                ", client=" + client +
+                '}';
     }
 }

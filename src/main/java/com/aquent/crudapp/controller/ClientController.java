@@ -3,8 +3,10 @@ package com.aquent.crudapp.controller;
 import com.aquent.crudapp.domain.Address;
 import com.aquent.crudapp.domain.AddressType;
 import com.aquent.crudapp.domain.Client;
+import com.aquent.crudapp.domain.Person;
 import com.aquent.crudapp.service.AddressService;
 import com.aquent.crudapp.service.ClientService;
+import com.aquent.crudapp.service.PersonService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Controller for handling basic client management operations.
@@ -30,6 +34,7 @@ public class ClientController {
 
     @Inject private ClientService clientService;
     @Inject private AddressService addressService;
+    @Inject private PersonService personService;
 
     /**
      * Renders the listing page.
@@ -59,6 +64,7 @@ public class ClientController {
         mav.addObject("client", new Client());
         mav.addObject("physicalAddress", physicalAddress);
         mav.addObject("mailingAddress", mailingAddress);
+        mav.addObject("people", personService.listPeople());
         mav.addObject("errors", new ArrayList<String>());
         return mav;
     }
@@ -78,12 +84,13 @@ public class ClientController {
      */
     @RequestMapping(value = "create", method = RequestMethod.POST)
     // TODO find a cleaner way to handle multiple addresses in a form.
-    public ModelAndView create(Client client, @RequestParam AddressType[] addressType, @RequestParam String[] streetAddress,
-                               @RequestParam String[] city, @RequestParam String[] state, @RequestParam String[] zipCode) {
+    public ModelAndView create(Client client, AddressType[] addressType, String[] streetAddress, String[] city, String[] state, String[] zipCode, Integer[] personId) {
         Address physicalAddress = createAddress(null, addressType[0], streetAddress[0], city[0], state[0], zipCode[0]);
         Address mailingAddress = createAddress(null, addressType[1], streetAddress[1], city[1], state[1], zipCode[1]);
         client.setPhysicalAddress(physicalAddress);
         client.setMailingAddress(mailingAddress);
+
+        client.setContacts(createContacts(client, personId));
 
         List<String> errors = clientService.validateClient(client);
         errors.addAll(addressService.validateAddress(physicalAddress));
@@ -96,8 +103,7 @@ public class ClientController {
         }
     }
 
-    private Address createAddress(Integer addressId, AddressType addressType, String streetAddress,
-                                  String city, String state, String zipCode) {
+    private Address createAddress(Integer addressId, AddressType addressType, String streetAddress, String city, String state, String zipCode) {
         Address address = new Address();
         if (addressId != null) {
             address.setAddressId(addressId);
@@ -110,11 +116,25 @@ public class ClientController {
         return address;
     }
 
+    private List<Person> createContacts(Client client, Integer[] personId) {
+        List<Person> contacts = new LinkedList<>();
+        if (personId != null) {
+            for (Integer id : personId) {
+                Person p = new Person();
+                p.setPersonId(id);
+                p.setClient(client);
+                contacts.add(p);
+            }
+        }
+        return contacts;
+    }
+
     private ModelAndView createErrorMav(String path, Client client, Address physicalAddress, Address mailingAddress, List<String> errors) {
         ModelAndView mav = new ModelAndView(path);
         mav.addObject("client", client);
         mav.addObject("physicalAddress", physicalAddress);
         mav.addObject("mailingAddress", mailingAddress);
+        mav.addObject("people", personService.listPeople());
         mav.addObject("errors", errors);
         return mav;
     }
@@ -132,6 +152,7 @@ public class ClientController {
         mav.addObject("client", client);
         mav.addObject("physicalAddress", client.getPhysicalAddress());
         mav.addObject("mailingAddress", client.getMailingAddress());
+        mav.addObject("people", personService.listPeople());
         mav.addObject("errors", new ArrayList<String>());
         return mav;
     }
@@ -152,12 +173,13 @@ public class ClientController {
      */
     @RequestMapping(value = "edit", method = RequestMethod.POST)
     // TODO find a cleaner way to handle multiple addresses in a form.
-    public ModelAndView edit(Client client, @RequestParam Integer[] addressId, @RequestParam AddressType[] addressType, @RequestParam String[] streetAddress,
-                             @RequestParam String[] city, @RequestParam String[] state, @RequestParam String[] zipCode) {
+    public ModelAndView edit(Client client, Integer[] addressId, AddressType[] addressType, String[] streetAddress, String[] city, String[] state, String[] zipCode, Integer[] personId) {
         Address physicalAddress = createAddress(addressId[0], addressType[0], streetAddress[0], city[0], state[0], zipCode[0]);
         Address mailingAddress = createAddress(addressId[1], addressType[1], streetAddress[1], city[1], state[1], zipCode[1]);
         client.setPhysicalAddress(physicalAddress);
         client.setMailingAddress(mailingAddress);
+
+        client.setContacts(createContacts(client, personId));
 
         List<String> errors = clientService.validateClient(client);
         errors.addAll(addressService.validateAddress(physicalAddress));

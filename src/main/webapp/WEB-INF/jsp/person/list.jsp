@@ -36,6 +36,7 @@
                                 <th>First Name</th>
                                 <th>Last Name</th>
                                 <th>Email Address</th>
+                                <th>Client</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -45,6 +46,7 @@
                                     <td>${person.firstName}</td>
                                     <td>${person.lastName}</td>
                                     <td>${person.emailAddress}</td>
+                                    <td>${person.client.companyName}</td>
                                     <td>
                                         <nav class="nav">
                                             <a class="nav-link" href="${pageContext.request.contextPath}/person/edit/${person.personId}">Edit Person</a>

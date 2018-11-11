@@ -47,6 +47,16 @@ INSERT INTO address (
     'Asheville',
     'NC',
     '28801'
+), (
+    '123 Any St.',
+    'Asheville',
+    'NC',
+    '28801'
+), (
+    '123 Any St.',
+    'Asheville',
+    'NC',
+    '28801'
 );
 
 INSERT INTO person_address (
@@ -71,6 +81,10 @@ INSERT INTO client (
     'XYZ, Inc.',
     'www.xyz.com',
     '8008675309'
+), (
+    'ABC, Inc.',
+    'www.abc.com',
+    '8888675309'
 );
 
 INSERT INTO client_address (
@@ -85,4 +99,20 @@ INSERT INTO client_address (
     0,
     3,
     2
+), (
+    1,
+    4,
+    1
+), (
+    1,
+    5,
+    2
+);
+
+INSERT INTO contact (
+    person_id,
+    client_id
+) VALUES (
+    0,
+    0
 );

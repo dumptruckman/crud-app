@@ -9,10 +9,9 @@ import com.aquent.crudapp.domain.Address;
 import com.aquent.crudapp.domain.AddressType;
 import com.aquent.crudapp.domain.Client;
 import com.aquent.crudapp.service.AddressService;
+import com.aquent.crudapp.service.ClientService;
 import com.aquent.crudapp.service.PersonService;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,6 +31,7 @@ public class PersonController {
 
     @Inject private PersonService personService;
     @Inject private AddressService addressService;
+    @Inject private ClientService clientService;
 
     /**
      * Renders the listing page.
@@ -57,6 +57,7 @@ public class PersonController {
         Address address = new Address();
         address.setAddressType(AddressType.PERSONAL);
         mav.addObject("address", address);
+        mav.addObject("clients", clientService.listClients());
         mav.addObject("errors", new ArrayList<String>());
         return mav;
     }
@@ -71,8 +72,13 @@ public class PersonController {
      * @return redirect, or create view with errors
      */
     @RequestMapping(value = "create", method = RequestMethod.POST)
-    public ModelAndView create(Person person, Address address) {
+    public ModelAndView create(Person person, Address address, Integer clientId) {
         person.setAddress(address);
+        Client client = new Client();
+        person.setClient(client);
+        if (clientId >= 0) {
+            client.setClientId(clientId);
+        }
         List<String> errors = personService.validatePerson(person);
         errors.addAll(addressService.validateAddress(address));
         if (errors.isEmpty()) {
@@ -87,6 +93,7 @@ public class PersonController {
         ModelAndView mav = new ModelAndView(path);
         mav.addObject("person", person);
         mav.addObject("address", address);
+        mav.addObject("clients", clientService.listClients());
         mav.addObject("errors", errors);
         return mav;
     }
@@ -103,6 +110,7 @@ public class PersonController {
         Person person = personService.readPerson(personId);
         mav.addObject("person", person);
         mav.addObject("address", person.getAddress());
+        mav.addObject("clients", clientService.listClients());
         mav.addObject("errors", new ArrayList<String>());
         return mav;
     }
@@ -117,8 +125,13 @@ public class PersonController {
      * @return redirect, or edit view with errors
      */
     @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public ModelAndView edit(Person person, Address address) {
+    public ModelAndView edit(Person person, Address address, Integer clientId) {
         person.setAddress(address);
+        Client client = new Client();
+        person.setClient(client);
+        if (clientId >= 0) {
+            client.setClientId(clientId);
+        }
         List<String> errors = personService.validatePerson(person);
         errors.addAll(addressService.validateAddress(address));
         if (errors.isEmpty()) {

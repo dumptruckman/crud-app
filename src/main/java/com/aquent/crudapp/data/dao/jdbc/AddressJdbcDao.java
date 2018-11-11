@@ -8,6 +8,7 @@ import com.aquent.crudapp.domain.Person;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Propagation;
@@ -160,14 +161,14 @@ public class AddressJdbcDao implements AddressDao {
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
     public void updateAddress(Address address) {
-        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(address);
+        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(address);
         namedParameterJdbcTemplate.update(SQL_UPDATE_ADDRESS, parameterSource);
     }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
     public Integer createAddressForPerson(Person person) {
-        BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(person.getAddress());
+        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(person.getAddress());
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(SQL_CREATE_ADDRESS, parameterSource, keyHolder);
