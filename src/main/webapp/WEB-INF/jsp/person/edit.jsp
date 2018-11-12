@@ -17,7 +17,10 @@
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
-        <spring:url value="/resources/layout.css" var="layoutCSS" />
+
+        <spring:url value="/resources/css/layout.css" var="layoutCSS" />
+        <spring:url value="/resources/js/formValidation.js" var="formValidationJS" />
+        <link href="${layoutCSS}" rel="stylesheet">
 
         <title>Edit Person</title>
     </head>
@@ -33,36 +36,41 @@
                     </c:forEach>
                 </ul>
             </c:if>
-            <form action="${pageContext.request.contextPath}/person/edit" method="POST">
+            <form action="${pageContext.request.contextPath}/person/edit" method="POST" class="needs-validation" novalidate>
                 <input type="hidden" name="personId" value="${person.personId}"/>
                 <input type="hidden" name="addressId" value="${address.addressId}"/>
                 <input type="hidden" name="addressType" value="${address.addressType}"/>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="firstName">First Name:</label>
-                        <input id="firstName" class="form-control" type="text" name="firstName" placeholder="First Name" value="${person.firstName}"/>
+                        <input id="firstName" class="form-control" type="text" name="firstName" value="${person.firstName}" placeholder="First Name" required maxlength="50"/>
+                        <div class="invalid-feedback">First name is required with maximum length of 50</div>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="lastName">Last Name:</label>
-                        <input id="lastName" class="form-control" type="text" name="lastName" placeholder="Last Name" value="${person.lastName}"/>
+                        <input id="lastName" class="form-control" type="text" name="lastName" value="${person.lastName}" placeholder="Last Name" required maxlength="50"/>
+                        <div class="invalid-feedback">Last name is required with maximum length of 50</div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="emailAddress">Email Address:</label>
-                    <input id="emailAddress" class="form-control" type="text" name="emailAddress" value="${person.emailAddress}"/>
+                    <input id="emailAddress" class="form-control" type="text" name="emailAddress" value="${person.emailAddress}" placeholder="Email Address" required maxlength="50"/>
+                    <div class="invalid-feedback">Email address is required with maximum length of 50</div>
                 </div>
                 <div class="form-group">
                     <label for="streetAddress">Street Address:</label>
-                    <input id="streetAddress" class="form-control" type="text" name="streetAddress" value="${person.address.streetAddress}"/>
+                    <input id="streetAddress" class="form-control" type="text" name="streetAddress" value="${person.address.streetAddress}" placeholder="Street Address" required maxlength="50"/>
+                    <div class="invalid-feedback">Street address is required with maximum length of 50</div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-8">
                         <label for="city">City:</label>
-                        <input id="city" class="form-control" type="text" name="city" value="${address.city}"/>
+                        <input id="city" class="form-control" type="text" name="city" value="${address.city}" placeholder="City" required maxlength="50"/>
+                        <div class="invalid-feedback">City is required with maximum length of 50</div>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="state">State:</label>
-                        <select id="state" class="form-control" name="state">
+                        <select id="state" class="form-control" name="state" required>
                             <option ${"AL".equals(address.state)? 'selected="selected"' : ''} value="AL">AL</option>
                             <option ${"AK".equals(address.state)? 'selected="selected"' : ''} value="AK">AK</option>
                             <option ${"AZ".equals(address.state)? 'selected="selected"' : ''} value="AZ">AZ</option>
@@ -115,10 +123,12 @@
                             <option ${"WI".equals(address.state) ? 'selected="selected"' : ''} value="WI">WI</option>
                             <option ${"WY".equals(address.state) ? 'selected="selected"' : ''} value="WY">WY</option>
                         </select>
+                        <div class="invalid-feedback">State is required with length of 2</div>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="zipCode">Zip Code:</label>
-                        <input id="zipCode" class="form-control" type="text" name="zipCode" value="${address.zipCode}"/>
+                        <input id="zipCode" class="form-control" type="text" name="zipCode" value="${address.zipCode}" placeholder="Zip Code" required maxlength="5" pattern="\d{5,5}"/>
+                        <div class="invalid-feedback">Zip code is required with 5 digits</div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -139,5 +149,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+        <script src="${formValidationJS}" type="text/javascript"></script>
     </body>
 </html>

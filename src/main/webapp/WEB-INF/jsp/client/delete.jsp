@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <spring:url value="/resources/layout.css" var="layoutCSS" />
+        <spring:url value="/resources/css/layout.css" var="layoutCSS" />
+        <link rel="stylesheet" href="${layoutCSS}">
 
         <title>Delete Client</title>
     </head>
