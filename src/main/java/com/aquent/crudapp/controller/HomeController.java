@@ -16,7 +16,7 @@ public class HomeController {
      *
      * @return redirect to the person list
      */
-    @RequestMapping
+    @RequestMapping(path = "/")
     public String index() {
         return "redirect:/person/list";
     }
