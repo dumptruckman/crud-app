@@ -45,6 +45,7 @@ public class ClientController {
     public ModelAndView list() {
         ModelAndView mav = new ModelAndView("client/list");
         mav.addObject("clients", clientService.listClients());
+        mav.addObject("people", personService.listPeople());
         return mav;
     }
 

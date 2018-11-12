@@ -43,10 +43,10 @@
                         <tbody>
                             <c:forEach items="${persons}" var="person">
                                 <tr>
-                                    <td>${person.firstName}</td>
-                                    <td>${person.lastName}</td>
-                                    <td>${person.emailAddress}</td>
-                                    <td>${person.client.companyName}</td>
+                                    <td class="align-middle"><a href="${pageContext.request.contextPath}/person/edit/${person.personId}">${person.firstName}</a></td>
+                                    <td class="align-middle"><a href="${pageContext.request.contextPath}/person/edit/${person.personId}">${person.lastName}</a></td>
+                                    <td class="align-middle">${person.emailAddress}</td>
+                                    <td class="align-middle">${person.client.companyName}</td>
                                     <td>
                                         <nav class="nav">
                                             <a class="nav-link" href="${pageContext.request.contextPath}/person/edit/${person.personId}">Edit Person</a>

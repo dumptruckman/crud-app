@@ -29,15 +29,23 @@
                                 <th>Company Name</th>
                                 <th>Website</th>
                                 <th>Phone Number</th>
+                                <th>Contacts</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <c:forEach items="${clients}" var="client">
                                 <tr>
-                                    <td>${client.companyName}</td>
-                                    <td>${client.website}</td>
-                                    <td>${client.phoneNumber}</td>
+                                    <td class="align-middle"><a href="${pageContext.request.contextPath}/client/edit/${client.clientId}">${client.companyName}</a></td>
+                                    <td class="align-middle">${client.website}</td>
+                                    <td class="align-middle">${client.phoneNumber}</td>
+                                    <td class="align-middle">
+                                        <c:forEach items="${people}" var="person">
+                                            <c:if test="${person.client.clientId == client.clientId}">
+                                                <div><a href="${pageContext.request.contextPath}/person/edit/${person.personId}">${person.firstName} ${person.lastName}</a></div>
+                                            </c:if>
+                                        </c:forEach>
+                                    </td>
                                     <td>
                                         <nav class="nav">
                                             <a class="nav-link" href="${pageContext.request.contextPath}/client/edit/${client.clientId}">Edit Client</a>
