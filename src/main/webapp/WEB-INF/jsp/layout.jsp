@@ -1,5 +1,6 @@
+<spring:url value="/resources/aquent-logo.png" var="logoPNG" />
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
-    <a class="navbar-brand" href="#">A Q U E N T</a>
+    <div class="navbar-brand"><img class="img-fluid" src="${logoPNG}" alt="Aquent logo"></div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
