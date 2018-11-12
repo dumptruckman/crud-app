@@ -37,13 +37,15 @@
                 <input type="hidden" name="personId" value="${person.personId}"/>
                 <input type="hidden" name="addressId" value="${address.addressId}"/>
                 <input type="hidden" name="addressType" value="${address.addressType}"/>
-                <div class="form-group">
-                    <label for="firstName">First Name:</label>
-                    <input id="firstName" class="form-control" type="text" name="firstName" value="${person.firstName}"/>
-                </div>
-                <div class="form-group">
-                    <label for="lastName">Last Name:</label>
-                    <input id="lastName" class="form-control" type="text" name="lastName" value="${person.lastName}"/>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="firstName">First Name:</label>
+                        <input id="firstName" class="form-control" type="text" name="firstName" placeholder="First Name" value="${person.firstName}"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="lastName">Last Name:</label>
+                        <input id="lastName" class="form-control" type="text" name="lastName" placeholder="Last Name" value="${person.lastName}"/>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="emailAddress">Email Address:</label>
@@ -53,17 +55,71 @@
                     <label for="streetAddress">Street Address:</label>
                     <input id="streetAddress" class="form-control" type="text" name="streetAddress" value="${person.address.streetAddress}"/>
                 </div>
-                <div class="form-group">
-                    <label for="city">City:</label>
-                    <input id="city" class="form-control" type="text" name="city" value="${address.city}"/>
-                </div>
-                <div class="form-group">
-                    <label for="state">State:</label>
-                    <input id="state" class="form-control" type="text" name="state" value="${address.state}"/>
-                </div>
-                <div class="form-group">
-                    <label for="zipCode">Zip Code:</label>
-                    <input id="zipCode" class="form-control" type="text" name="zipCode" value="${address.zipCode}"/>
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label for="city">City:</label>
+                        <input id="city" class="form-control" type="text" name="city" value="${address.city}"/>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="state">State:</label>
+                        <select id="state" class="form-control" name="state">
+                            <option ${"AL".equals(address.state)? 'selected="selected"' : ''} value="AL">AL</option>
+                            <option ${"AK".equals(address.state)? 'selected="selected"' : ''} value="AK">AK</option>
+                            <option ${"AZ".equals(address.state)? 'selected="selected"' : ''} value="AZ">AZ</option>
+                            <option ${"AR".equals(address.state)? 'selected="selected"' : ''} value="AR">AR</option>
+                            <option ${"CA".equals(address.state)? 'selected="selected"' : ''} value="CA">CA</option>
+                            <option ${"CO".equals(address.state)? 'selected="selected"' : ''} value="CO">CO</option>
+                            <option ${"CT".equals(address.state)? 'selected="selected"' : ''} value="CT">CT</option>
+                            <option ${"DE".equals(address.state)? 'selected="selected"' : ''} value="DE">DE</option>
+                            <option ${"DC".equals(address.state)? 'selected="selected"' : ''} value="DC">DC</option>
+                            <option ${"FL".equals(address.state)? 'selected="selected"' : ''} value="FL">FL</option>
+                            <option ${"GA".equals(address.state)? 'selected="selected"' : ''} value="GA">GA</option>
+                            <option ${"HI".equals(address.state)? 'selected="selected"' : ''} value="HI">HI</option>
+                            <option ${"ID".equals(address.state)? 'selected="selected"' : ''} value="ID">ID</option>
+                            <option ${"IL".equals(address.state)? 'selected="selected"' : ''} value="IL">IL</option>
+                            <option ${"IN".equals(address.state)? 'selected="selected"' : ''} value="IN">IN</option>
+                            <option ${"IA".equals(address.state)? 'selected="selected"' : ''} value="IA">IA</option>
+                            <option ${"KS".equals(address.state)? 'selected="selected"' : ''} value="KS">KS</option>
+                            <option ${"KY".equals(address.state)? 'selected="selected"' : ''} value="KY">KY</option>
+                            <option ${"LA".equals(address.state)? 'selected="selected"' : ''} value="LA">LA</option>
+                            <option ${"ME".equals(address.state)? 'selected="selected"' : ''} value="ME">ME</option>
+                            <option ${"MD".equals(address.state)? 'selected="selected"' : ''} value="MD">MD</option>
+                            <option ${"MA".equals(address.state)? 'selected="selected"' : ''} value="MA">MA</option>
+                            <option ${"MI".equals(address.state)? 'selected="selected"' : ''} value="MI">MI</option>
+                            <option ${"MN".equals(address.state)? 'selected="selected"' : ''} value="MN">MN</option>
+                            <option ${"MS".equals(address.state)? 'selected="selected"' : ''} value="MS">MS</option>
+                            <option ${"MO".equals(address.state)? 'selected="selected"' : ''} value="MO">MO</option>
+                            <option ${"MT".equals(address.state)? 'selected="selected"' : ''} value="MT">MT</option>
+                            <option ${"NE".equals(address.state)? 'selected="selected"' : ''} value="NE">NE</option>
+                            <option ${"NV".equals(address.state)? 'selected="selected"' : ''} value="NV">NV</option>
+                            <option ${"NH".equals(address.state)? 'selected="selected"' : ''} value="NH">NH</option>
+                            <option ${"NJ".equals(address.state)? 'selected="selected"' : ''} value="NJ">NJ</option>
+                            <option ${"NM".equals(address.state)? 'selected="selected"' : ''} value="NM">NM</option>
+                            <option ${"NY".equals(address.state)? 'selected="selected"' : ''} value="NY">NY</option>
+                            <option ${"NC".equals(address.state)? 'selected="selected"' : ''} value="NC">NC</option>
+                            <option ${"ND".equals(address.state)? 'selected="selected"' : ''} value="ND">ND</option>
+                            <option ${"OH".equals(address.state)? 'selected="selected"' : ''} value="OH">OH</option>
+                            <option ${"OK".equals(address.state)? 'selected="selected"' : ''} value="OK">OK</option>
+                            <option ${"OR".equals(address.state)? 'selected="selected"' : ''} value="OR">OR</option>
+                            <option ${"PA".equals(address.state)? 'selected="selected"' : ''} value="PA">PA</option>
+                            <option ${"RI".equals(address.state)? 'selected="selected"' : ''} value="RI">RI</option>
+                            <option ${"SC".equals(address.state)? 'selected="selected"' : ''} value="SC">SC</option>
+                            <option ${"SD".equals(address.state)? 'selected="selected"' : ''} value="SD">SD</option>
+                            <option ${"TN".equals(address.state)? 'selected="selected"' : ''} value="TN">TN</option>
+                            <option ${"TX".equals(address.state)? 'selected="selected"' : ''} value="TX">TX</option>
+                            <option ${"UT".equals(address.state)? 'selected="selected"' : ''} value="UT">UT</option>
+                            <option ${"VT".equals(address.state)? 'selected="selected"' : ''} value="VT">VT</option>
+                            <option ${"VA".equals(address.state)? 'selected="selected"' : ''} value="VA">VA</option>
+                            <option ${"WA".equals(address.state)? 'selected="selected"' : ''} value="WA">WA</option>
+                            <option ${"WV".equals(address.state) ? 'selected="selected"' : ''} value="WV">WV</option>
+                            <option ${"WI".equals(address.state) ? 'selected="selected"' : ''} value="WI">WI</option>
+                            <option ${"WY".equals(address.state) ? 'selected="selected"' : ''} value="WY">WY</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="zipCode">Zip Code:</label>
+                        <input id="zipCode" class="form-control" type="text" name="zipCode" value="${address.zipCode}"/>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="client">Client:</label>
