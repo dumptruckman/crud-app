@@ -17,7 +17,7 @@
       </ul>
     </th:block>
     <form action="/person/edit" method="POST">
-      <input type="hidden" name="personId" th:value="${person.personId}"/>
+      <input type="hidden" name="id" th:value="${person.id}"/>
       <br/>
       <label for="firstName">First Name:</label>
       <input type="text" name="firstName" th:value="${person.firstName}"/>

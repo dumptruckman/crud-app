@@ -1,50 +1,66 @@
-package com.aquent.crudapp.person;
+package com.aquent.crudapp.entity;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 /**
  * The person entity corresponding to the "person" table in the database.
  */
-public class Person {
+@Entity
+@Table(name = "person")
+public class Person implements BaseEntity {
 
-    private Integer personId;
+    @Id
+    @GeneratedValue
+    private Long id;
 
+    @Column
     @NotNull
     @Size(min = 1, max = 50, message = "First name is required with maximum length of 50")
     private String firstName;
 
+    @Column
     @NotNull
     @Size(min = 1, max = 50, message = "Last name is required with maximum length of 50")
     private String lastName;
 
+    @Column
     @NotNull
     @Size(min = 1, max = 50, message = "Email address is required with maximum length of 50")
     private String emailAddress;
 
+    @Column
     @NotNull
     @Size(min = 1, max = 50, message = "Street address is required with maximum length of 50")
     private String streetAddress;
 
+    @Column
     @NotNull
     @Size(min = 1, max = 50, message = "City is required with maximum length of 50")
     private String city;
 
+    @Column
     @NotNull
     @Size(min = 2, max = 2, message = "State is required with length 2")
     private String state;
 
+    @Column
     @NotNull
     @Size(min = 5, max = 5, message = "Zip code is required with length 5")
     private String zipCode;
 
-    public Integer getPersonId() {
-        return personId;
-    }
+    @Column
+    @CreatedDate
+    private Date createdDate;
 
-    public void setPersonId(Integer personId) {
-        this.personId = personId;
-    }
+    @Column
+    @LastModifiedDate
+    private Date lastModifiedDate;
 
     public String getFirstName() {
         return firstName;
@@ -100,5 +116,35 @@ public class Person {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    @Override
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    @Override
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    @Override
+    public void setLastModifiedDate(Date lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 }

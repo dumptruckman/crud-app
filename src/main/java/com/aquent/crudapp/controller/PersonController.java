@@ -1,8 +1,12 @@
-package com.aquent.crudapp.person;
+package com.aquent.crudapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.aquent.crudapp.dto.PersonDTO;
+import com.aquent.crudapp.entity.Person;
+import com.aquent.crudapp.service.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("person")
 public class PersonController {
 
-    public static final String COMMAND_DELETE = "Delete";
+    private static final String COMMAND_DELETE = "Delete";
 
+    @Autowired
     private final PersonService personService;
 
     public PersonController(PersonService personService) {
@@ -34,7 +39,7 @@ public class PersonController {
     @GetMapping(value = "list")
     public ModelAndView list() {
         ModelAndView mav = new ModelAndView("person/list");
-        mav.addObject("persons", personService.listPeople());
+        mav.addObject("persons", personService.list());
         return mav;
     }
 
@@ -60,10 +65,10 @@ public class PersonController {
      * @return redirect, or create view with errors
      */
     @PostMapping(value = "create")
-    public ModelAndView create(Person person) {
-        List<String> errors = personService.validatePerson(person);
+    public ModelAndView create(PersonDTO person) {
+        List<String> errors = personService.validate(person);
         if (errors.isEmpty()) {
-            personService.createPerson(person);
+            personService.create(person);
             return new ModelAndView("redirect:/person/list");
         } else {
             ModelAndView mav = new ModelAndView("person/create");
@@ -80,9 +85,9 @@ public class PersonController {
      * @return edit view populated from the person record
      */
     @GetMapping(value = "edit/{personId}")
-    public ModelAndView edit(@PathVariable Integer personId) {
+    public ModelAndView edit(@PathVariable Long personId) {
         ModelAndView mav = new ModelAndView("person/edit");
-        mav.addObject("person", personService.readPerson(personId));
+        mav.addObject("person", personService.get(personId));
         mav.addObject("errors", new ArrayList<String>());
         return mav;
     }
@@ -96,10 +101,10 @@ public class PersonController {
      * @return redirect, or edit view with errors
      */
     @PostMapping(value = "edit")
-    public ModelAndView edit(Person person) {
-        List<String> errors = personService.validatePerson(person);
+    public ModelAndView edit(PersonDTO person) {
+        List<String> errors = personService.validate(person);
         if (errors.isEmpty()) {
-            personService.updatePerson(person);
+            personService.update(person);
             return new ModelAndView("redirect:/person/list");
         } else {
             ModelAndView mav = new ModelAndView("person/edit");
@@ -116,9 +121,9 @@ public class PersonController {
      * @return delete view populated from the person record
      */
     @GetMapping(value = "delete/{personId}")
-    public ModelAndView delete(@PathVariable Integer personId) {
+    public ModelAndView delete(@PathVariable Long personId) {
         ModelAndView mav = new ModelAndView("person/delete");
-        mav.addObject("person", personService.readPerson(personId));
+        mav.addObject("person", personService.get(personId));
         return mav;
     }
 
@@ -130,9 +135,9 @@ public class PersonController {
      * @return redirect to the listing page
      */
     @PostMapping(value = "delete")
-    public String delete(@RequestParam String command, @RequestParam Integer personId) {
+    public String delete(@RequestParam String command, @RequestParam Long personId) {
         if (COMMAND_DELETE.equals(command)) {
-            personService.deletePerson(personId);
+            personService.delete(personId);
         }
         return "redirect:/person/list";
     }
