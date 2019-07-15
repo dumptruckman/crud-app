@@ -1,12 +1,11 @@
 package com.aquent.crudapp.service;
 
-import com.aquent.crudapp.core.NotFoundException;
-
+import java.util.Collection;
 import java.util.List;
 
 public interface CrudService<T> {
 
-   List<T> list();
+   Collection<T> list();
 
     T create(T t);
 

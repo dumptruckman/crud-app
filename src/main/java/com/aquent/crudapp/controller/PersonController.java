@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.aquent.crudapp.dto.PersonDTO;
-import com.aquent.crudapp.entity.Person;
+import com.aquent.crudapp.service.ClientService;
 import com.aquent.crudapp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,11 +25,10 @@ public class PersonController {
     private static final String COMMAND_DELETE = "Delete";
 
     @Autowired
-    private final PersonService personService;
+    private PersonService personService;
 
-    public PersonController(PersonService personService) {
-        this.personService = personService;
-    }
+    @Autowired
+    private ClientService clientService;
 
     /**
      * Renders the listing page.
@@ -44,6 +43,17 @@ public class PersonController {
     }
 
     /**
+     * Views the person's information
+     * @return view populated with the person's information
+     */
+    @GetMapping(value = "{personId}")
+    public ModelAndView view(@PathVariable Long personId) {
+        ModelAndView mav = new ModelAndView("person/view");
+        mav.addObject("person", personService.get(personId));
+        return mav;
+    }
+
+    /**
      * Renders an empty form used to create a new person record.
      *
      * @return create view populated with an empty person
@@ -51,8 +61,29 @@ public class PersonController {
     @GetMapping(value = "create")
     public ModelAndView create() {
         ModelAndView mav = new ModelAndView("person/create");
-        mav.addObject("person", new Person());
+        mav.addObject("person", new PersonDTO());
+        mav.addObject("clients", clientService.list());
         mav.addObject("errors", new ArrayList<String>());
+        return mav;
+    }
+
+    /**
+     * Renders an empty form used to create a new person record.
+     *
+     * @param clientId is the client id to default on the person
+     * @return create view populated with an empty person
+     */
+    @GetMapping(value = "create/{clientId}")
+    public ModelAndView create(@PathVariable Long clientId) {
+        ModelAndView mav = new ModelAndView("person/create");
+
+        PersonDTO person = new PersonDTO();
+        person.setClientId(clientId);
+
+        mav.addObject("person", person);
+        mav.addObject("clients", clientService.list());
+        mav.addObject("errors", new ArrayList<String>());
+
         return mav;
     }
 
@@ -69,10 +100,15 @@ public class PersonController {
         List<String> errors = personService.validate(person);
         if (errors.isEmpty()) {
             personService.create(person);
-            return new ModelAndView("redirect:/person/list");
+            if (person.getClientId() == null) {
+                return new ModelAndView("redirect:/person/" + person.getId());
+            } else {
+                return new ModelAndView("redirect:/client/" + person.getClientId());
+            }
         } else {
             ModelAndView mav = new ModelAndView("person/create");
             mav.addObject("person", person);
+            mav.addObject("clients", clientService.list());
             mav.addObject("errors", errors);
             return mav;
         }
@@ -88,6 +124,7 @@ public class PersonController {
     public ModelAndView edit(@PathVariable Long personId) {
         ModelAndView mav = new ModelAndView("person/edit");
         mav.addObject("person", personService.get(personId));
+        mav.addObject("clients", clientService.list());
         mav.addObject("errors", new ArrayList<String>());
         return mav;
     }
@@ -109,6 +146,7 @@ public class PersonController {
         } else {
             ModelAndView mav = new ModelAndView("person/edit");
             mav.addObject("person", person);
+            mav.addObject("clients", clientService.list());
             mav.addObject("errors", errors);
             return mav;
         }

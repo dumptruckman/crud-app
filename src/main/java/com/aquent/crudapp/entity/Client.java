@@ -5,28 +5,26 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Optional;
+import java.util.HashSet;
+import java.util.Set;
 
-/**
- * The person entity corresponding to the "person" table in the database.
- */
 @Entity
-@Table(name = "person")
-public class Person implements BaseEntity {
+@Table(name = "client")
+public class Client implements BaseEntity {
 
     @Id
-    @SequenceGenerator(name = "PERSON_SEQ", sequenceName = "person_seq", allocationSize = 1)
-    @GeneratedValue(generator = "PERSON_SEQ")
+    @SequenceGenerator(name = "CLIENT_SEQ", sequenceName = "client_seq", allocationSize = 1)
+    @GeneratedValue(generator = "CLIENT_SEQ")
     private Long id;
 
-    @Column(name = "first_name", length = 50, nullable = false)
-    private String firstName;
+    @Column(name = "name", length = 50, nullable = false)
+    private String name;
 
-    @Column(name = "last_name", length = 50, nullable = false)
-    private String lastName;
+    @Column(name = "phone_number", length = 10, nullable = false)
+    private String phoneNumber;
 
-    @Column(name = "email_address", length = 50, nullable = false)
-    private String emailAddress;
+    @Column(name = "website_uri", length = 50, nullable = false)
+    private String websiteUri;
 
     @Column(name = "street_address", length = 50, nullable = false)
     private String streetAddress;
@@ -40,13 +38,8 @@ public class Person implements BaseEntity {
     @Column(name = "zip_code", length = 9, nullable = false)
     private String zipCode;
 
-    @OneToOne
-    @JoinTable(
-            name = "contacts",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "client_id")
-    )
-    private Client client;
+    @OneToMany(mappedBy = "client")
+    private Set<Person> contacts = new HashSet<>();
 
     @Column(name = "created_date")
     @CreatedDate
@@ -56,28 +49,28 @@ public class Person implements BaseEntity {
     @LastModifiedDate
     private Date lastModifiedDate;
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getWebsiteUri() {
+        return websiteUri;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setWebsiteUri(String websiteUri) {
+        this.websiteUri = websiteUri;
     }
 
     public String getStreetAddress() {
@@ -112,7 +105,9 @@ public class Person implements BaseEntity {
         this.zipCode = zipCode;
     }
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -129,18 +124,20 @@ public class Person implements BaseEntity {
     }
 
     @Override
-    public Date getLastModifiedDate() { return lastModifiedDate; }
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
+    }
 
     @Override
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public Optional<Client> getClient() {
-        return Optional.ofNullable(client);
+    public Set<Person> getContacts() {
+        return contacts;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setContacts(HashSet<Person> contacts) {
+        this.contacts = contacts;
     }
 }

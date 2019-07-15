@@ -1,4 +1,11 @@
 package com.aquent.crudapp.entity;
 
-interface BaseEntity extends Identifiable, Auditable {
+import java.util.Date;
+
+interface BaseEntity {
+    Date getCreatedDate();
+    void setCreatedDate(Date createdDate);
+
+    Date getLastModifiedDate();
+    void setLastModifiedDate(Date lastModifiedDate);
 }

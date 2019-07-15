@@ -1,0 +1,79 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>Client :: View</title>
+</head>
+
+<header layout:fragment="header">
+    <h3>Client :: View</h3>
+</header>
+
+<section layout:fragment="content">
+    <div class="btn-toolbar justify-content-between" role="toolbar">
+        <div role="group" class="btn-group mr-2">
+            <a class="btn btn-primary" th:href="'/client/edit/' + ${client.id}">Edit</a>
+            <a class="btn btn-secondary" href="/client/list">Clients</a>
+            <a class="btn btn-secondary" href="/person/list">Contacts</a>
+        </div>
+        <div role="group" class="btn-group mr-2">
+            <a class="btn btn-success" th:href="'/person/create/' + ${client.id}">New Contact</a>
+            <a class="btn btn-success" th:href="'/client/add/' + ${client.id}">Add Unassigned Contact</a>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-12 col-md-7">
+            <h4>Information</h4>
+            <table class="table">
+                <thead>
+                <th>Field</th>
+                <th>Value</th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Name</td>
+                    <td th:text="${client.name}">First</td>
+                </tr>
+                <tr>
+                    <td>Web URL</td>
+                    <td th:text="${client.websiteUri}">https://www.something.com</td>
+                </tr>
+                <tr>
+                    <td>Street Address</td>
+                    <td th:text="${client.streetAddress}">123 Main Street</td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td th:text="${client.city}">Somewhere</td>
+                </tr>
+                <tr>
+                    <td>State</td>
+                    <td th:text="${client.state}">NC</td>
+                </tr>
+                <tr>
+                    <td>ZIP Code</td>
+                    <td th:text="${client.zipCode}">ZIP Code</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12 col-md-5">
+            <th:block th:unless="${client.contacts.empty}">
+                <h4>Contacts</h4>
+                <ul class="list-group">
+                    <li th:each="person : ${client.contacts}"
+                        class="list-group-item">
+                        <a class="float-left" th:href="'/person/' + ${person.id}"
+                           th:text="${person.firstName} + ' ' + ${person.lastName}">client name</a>
+                        <a class="float-right btn btn-danger"
+                           th:href="'/client/remove/'+ ${client.id} + '/' + ${person.id}">Delete</a>
+                    </li>
+                </ul>
+            </th:block>
+        </div>
+    </div>
+</section>
+</html>

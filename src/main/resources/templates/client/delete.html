@@ -1,0 +1,22 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>Client :: Delete</title>
+</head>
+
+<header layout:fragment="header">
+    <h3>Client :: Delete</h3>
+</header>
+
+<section layout:fragment="content">
+    <p>You are about to delete the client <th:block th:text="${client.name}" />:  Are you sure?</p>
+    <form action="/client/delete" method="POST">
+        <input type="hidden" name="clientId" th:value="${client.id}"/>
+        <input type="submit" name="command" value="Cancel"/>
+        <input type="submit" name="command" value="Delete"/>
+    </form>
+</section>
+</html>

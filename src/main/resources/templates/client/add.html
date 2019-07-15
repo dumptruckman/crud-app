@@ -1,0 +1,30 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>Contact :: Add</title>
+</head>
+
+<header layout:fragment="header">
+    <h3>Contact :: Add</h3>
+</header>
+
+<section layout:fragment="content">
+    <div th:replace="fragment :: errors"></div>
+    <form action="/client/add" method="POST">
+        <div class="form-group">
+            <label for="client">Available Contacts:</label>
+            <select class="form-control" name="personId">
+                <option value="" text="Please Select"></option>
+                <option th:each="person : ${people}"
+                        th:value="${person.id}"
+                        th:text="${person.firstName} + ' ' + ${person.lastName}">Client Name</option>
+            </select>
+        </div>
+        <input type="hidden" name="clientId" th:value="${client.id}" />
+        <button type="submit" class="btn btn-primary" name="Submit" value="Submit">Submit</button>
+    </form>
+</section>
+</html>

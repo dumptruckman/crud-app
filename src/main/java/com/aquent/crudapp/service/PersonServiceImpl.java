@@ -1,9 +1,9 @@
 package com.aquent.crudapp.service;
 
-import com.aquent.crudapp.core.NotFoundException;
+import com.aquent.crudapp.exception.NotFoundException;
 import com.aquent.crudapp.dto.PersonDTO;
 import com.aquent.crudapp.entity.Person;
-import com.aquent.crudapp.mapping.PersonMapping;
+import com.aquent.crudapp.mapping.entity.PersonEntityMapping;
 import com.aquent.crudapp.repo.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,32 +12,41 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class PersonServiceImpl implements PersonService {
 
-    @Autowired private PersonRepository repo;
+    @Autowired private PersonRepository personRepository;
     @Autowired private Validator validator;
-    @Autowired private PersonMapping map;
+    @Autowired private PersonEntityMapping personMapping;
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public PersonDTO get(Long id) {
-        Person entity = repo.findById(id).orElseThrow(() -> new NotFoundException(this.getClass(), id));
+        Person entity = personRepository.findById(id).orElseThrow(() -> new NotFoundException(this.getClass(), id));
 
-        return map.fromEntity(entity);
+        return personMapping.fromEntity(entity);
     }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public List<PersonDTO> list() {
-        List<PersonDTO> result = new ArrayList<>();
-        repo.findAll().forEach((item) -> {
-            PersonDTO dto = map.fromEntity(item);
+    public Set<PersonDTO> list() {
+        Set<PersonDTO> result = new TreeSet<>();
+        personRepository.findAll().forEach((item) -> {
+            PersonDTO dto = personMapping.fromEntity(item);
+            result.add(dto);
+        });
+
+        return result;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public Set<PersonDTO> allUnassigned() {
+        Set<PersonDTO> result = new TreeSet<>();
+        personRepository.findByClientIsNull().forEach((entity) -> {
+            PersonDTO dto = personMapping.fromEntity(entity);
             result.add(dto);
         });
 
@@ -47,35 +56,32 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
     public PersonDTO create(PersonDTO person) {
-        Person entity = map.toEntity(person, new Person());
-        entity = repo.save(entity);
+        Person entity = personMapping.toEntity(person, new Person());
 
-        return map.fromEntity(entity);
+        return personMapping.fromEntity(entity);
     }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
     public PersonDTO update(PersonDTO person) {
-        Person entity = repo.findById(person.getId()).orElseThrow(() -> new NotFoundException(this.getClass(), person.getId()));
-        entity = map.toEntity(person, entity);
-        entity = repo.save(entity);
+        Person entity = personRepository.findById(person.getId()).orElseThrow(() -> new NotFoundException(this.getClass(), person.getId()));
+        entity = personMapping.toEntity(person, entity);
 
-        return map.fromEntity(entity);
+        return personMapping.fromEntity(entity);
     }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
-        Person entity = repo.findById(id).orElseThrow(() -> new NotFoundException(this.getClass(), id));
-        repo.delete(entity);
+        Person entity = personRepository.findById(id).orElseThrow(() -> new NotFoundException(this.getClass(), id));
+        personRepository.delete(entity);
     }
 
     @Override
     public List<String> validate(PersonDTO person) {
-        Person entity = map.toEntity(person, new Person());
-        Set<ConstraintViolation<Person>> violations = validator.validate(entity);
+        Set<ConstraintViolation<PersonDTO>> violations = validator.validate(person);
         List<String> errors = new ArrayList<>(violations.size());
-        for (ConstraintViolation<Person> violation : violations) {
+        for (ConstraintViolation<PersonDTO> violation : violations) {
             errors.add(violation.getMessage());
         }
         Collections.sort(errors);

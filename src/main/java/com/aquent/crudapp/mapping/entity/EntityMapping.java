@@ -1,4 +1,4 @@
-package com.aquent.crudapp.mapping;
+package com.aquent.crudapp.mapping.entity;
 
 interface EntityMapping<Entity, DataTransferObject> {
 

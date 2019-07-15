@@ -1,4 +1,4 @@
-package com.aquent.crudapp.core;
+package com.aquent.crudapp.exception;
 
 public class NotFoundException extends RuntimeException {
 

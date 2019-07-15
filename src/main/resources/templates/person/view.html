@@ -1,0 +1,64 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>Person :: View</title>
+</head>
+
+<header layout:fragment="header">
+    <h3>Person :: View</h3>
+</header>
+
+<section layout:fragment="content">
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" th:href="'/contact/add/' + ${person.id}">Edit</a>
+            <a class="btn btn-secondary" href="/client/list">Clients</a>
+            <a class="btn btn-secondary" href="/person/list">Contacts</a>
+        </div>
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+        <th>Field</th>
+        <th>Value</th>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Name</td>
+            <td th:text="${person.firstName} + ' ' + ${person.lastName}">First</td>
+        </tr>
+        <tr>
+            <td>Client</td>
+            <td>
+                <th:block th:unless="${person.clientId} == null">
+                    <a th:href="'/client/' + ${person.clientId}" th:text="${person.clientName}">client name</a>
+                </th:block>
+            </td>
+        </tr>
+        <tr>
+            <td>Email Address</td>
+            <td th:text="${person.emailAddress}">something@somewhere.com</td>
+        </tr>
+        <tr>
+            <td>Street Address</td>
+            <td th:text="${person.streetAddress}">123 Main Street</td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td th:text="${person.city}">Somewhere</td>
+        </tr>
+        <tr>
+            <td>State</td>
+            <td th:text="${person.state}">NC</td>
+        </tr>
+        <tr>
+            <td>ZIP Code</td>
+            <td th:text="${person.zipCode}">ZIP Code</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</html>

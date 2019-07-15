@@ -1,41 +1,55 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Person Listing</title>
-  </head>
-  <body>
-    <h1>Person Listing</h1>
-    <p><a href="/person/create">Create New Person</a></p>
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>Contacts :: List</title>
+</head>
+<header layout:fragment="header">
+    <h3>Contacts :: List</h3>
+</header>
+<section layout:fragment="content">
+    <div class="btn-toolbar pull-right">
+        <a class="btn btn-primary" href="/person/create">New Contact</a>
+        <a class="btn btn-secondary" href="/client/list">Go to Clients</a>
+    </div>
+    <br>
     <th:block th:unless="${#lists.isEmpty(persons)}">
-      <table>
-        <thead>
-          <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email Address</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <th:block th:each="person : ${persons}">
+        <table class="table">
+            <thead>
             <tr>
-              <td th:text="${person.firstName}">First</td>
-              <td th:text="${person.lastName}">Last</td>
-              <td th:text="${person.emailAddress}">first.last@email.com</td>
-              <td>
-                <a th:href="'/person/edit/' + ${person.id}">Edit Person</a>
-                <a th:href="'/person/delete/' + ${person.id}">Delete Person</a>
-              </td>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email Address</th>
+                <th>Client</th>
+                <th>Actions</th>
             </tr>
-          </th:block>
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+            <th:block th:each="person : ${persons}">
+                <tr>
+                    <td th:text="${person.firstName}">First</td>
+                    <td th:text="${person.lastName}">Last</td>
+                    <td th:text="${person.emailAddress}">first.last@email.com</td>
+                    <td>
+                        <th:block th:unless="${person.clientId} == null">
+                            <a th:href="'/client/' + ${person.clientId}" th:text="${person.clientName}">client name</a>
+                        </th:block>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" th:href="'/person/' + ${person.id}">View</a>
+                        <a class="btn btn-primary" th:href="'/person/edit/' + ${person.id}">Edit</a>
+                        <a class="btn btn-danger" th:href="'/person/delete/' + ${person.id}">Delete</a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
     </th:block>
     <th:block th:if="${#lists.isEmpty(persons)}">
-      <p>No results found.</p>
+        <p>No results found.</p>
     </th:block>
-  </body>
+</section>
 </html>
