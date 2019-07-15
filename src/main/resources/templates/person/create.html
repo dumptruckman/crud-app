@@ -41,7 +41,7 @@
         </div>
         <div class="form-group">
             <label for="state">State:</label>
-            <select class="form-control" id="state" th:field="*{person.state}" minlength="2" required>
+            <select class="form-control" id="state" th:field="*{person.state}" required>
                 <div th:replace="fragment :: stateDropdownOptions"></div>
             </select>
         </div>
