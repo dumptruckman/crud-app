@@ -77,7 +77,7 @@ public class ClientController {
             ModelAndView mav = new ModelAndView("client/create");
             mav.addObject("client", client);
             mav.addObject("people", personService.list());
-            mav.addObject("errors", new ArrayList<String>());
+            mav.addObject("errors", errors);
             return mav;
         }
     }
@@ -113,7 +113,7 @@ public class ClientController {
             return new ModelAndView("redirect:/client/" + client.getId());
         } else {
             ModelAndView mav = new ModelAndView("client/edit");
-            mav.addObject("person", client);
+            mav.addObject("client", client);
             mav.addObject("errors", errors);
             return mav;
         }
