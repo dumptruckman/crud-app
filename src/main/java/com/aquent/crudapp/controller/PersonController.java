@@ -73,7 +73,9 @@ public class PersonController {
      * On failure, the form is redisplayed with the validation errors.
      *
      * @param person populated form bean for the person
-     * @return redirect, or create view with errors
+     * @return redirect to person info page if no client added,
+     * client info page if client added,
+     * or create view with errors
      */
     @PostMapping(value = "create")
     public ModelAndView create(PersonDTO person) {

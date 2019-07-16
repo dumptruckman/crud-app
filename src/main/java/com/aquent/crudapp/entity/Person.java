@@ -45,6 +45,13 @@ public class Person implements BaseEntity {
     @Column(name = "zip_code", length = 9, nullable = false)
     private String zipCode;
 
+    /** This fun mapping handles the relationship between
+     *  a person and contacts.
+     *
+     *  It creates a junction table (called "contacts") in the background,
+     *  but that junction table is not explicitly declared
+     *  as a JPA entity.
+     */
     @OneToOne
     @JoinTable(
             name = "contacts",

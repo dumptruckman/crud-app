@@ -147,6 +147,12 @@ public class ClientController {
         return new ModelAndView("redirect:/client/list");
     }
 
+    /**
+     * Renders page for adding a contact to a client
+     *
+     * @param clientId is the id of the client we are adding to
+     * @return add client page populated with cilent record and all unassigned contacts
+     */
     @GetMapping(value = "/add/{clientId}")
     public ModelAndView add(@PathVariable Long clientId) {
         ModelAndView mav = new ModelAndView("client/add");
@@ -155,6 +161,14 @@ public class ClientController {
         return mav;
     }
 
+    /**
+     * Handles addition of a contact to a client
+     *
+     * @param clientId is the id of the client we are adding to
+     * @param personId is the id of the person we are adding as a contact
+     *
+     * @return a redirect to the client's informational page.
+     */
     @PostMapping(value = "/add")
     public ModelAndView add(@RequestParam Long clientId, @RequestParam Long personId) {
         contactService.add(clientId, personId);
@@ -162,6 +176,13 @@ public class ClientController {
         return new ModelAndView("redirect:/client/" + clientId);
     }
 
+    /**
+     * Renders page that handles removal of a contact from a client
+     *
+     * @param clientId is the id of the client we are removing from
+     * @param personId is the id of the person we are removing as a contact
+     * @return a populated view confirming the removal of the record.
+     */
     @GetMapping(value = "/remove/{clientId}/{personId}")
     public ModelAndView remove(@PathVariable Long clientId, @PathVariable Long personId) {
         ModelAndView mav = new ModelAndView("client/remove");
@@ -171,6 +192,15 @@ public class ClientController {
         return mav;
     }
 
+    /**
+     * Handle result of contact removal page
+     *
+     * @param command is the command submitted by the form.
+     * @param clientId is the id of the client we are possibly removing a client from
+     * @param personId is the id of the person we are removing as a client.
+     *
+     * @return a redirect to the client information page.
+     */
     @PostMapping(value="/remove")
     public ModelAndView remove(@RequestParam String command, @RequestParam Long clientId, @RequestParam Long personId) {
         if (COMMAND_REMOVE.equals(command)) {

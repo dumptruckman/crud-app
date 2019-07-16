@@ -5,7 +5,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Operations on the "person" table.
+ * Repository for accessing people
+ *
+ * Uses built-in CrudRepository as prototype
  */
 @Repository
 public interface PersonRepository extends CrudRepository<Person, Long> {

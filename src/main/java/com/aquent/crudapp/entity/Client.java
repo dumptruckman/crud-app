@@ -42,6 +42,14 @@ public class Client implements BaseEntity {
     @Column(name = "zip_code", length = 9, nullable = false)
     private String zipCode;
 
+    /**
+     * This is the other side of the contacts
+     * junction table declaration.
+     *
+     * The "mappedBy" attribute makes this class
+     * responsible for mapping its own ID in the
+     * junction table.
+     */
     @OneToMany(mappedBy = "client")
     private Set<Person> contacts = new HashSet<>();
 

@@ -1,5 +1,12 @@
 package com.aquent.crudapp.constants;
 
+/**
+ * Constants class containing Regular Expressions
+ * used elsewhere in the application.
+ *
+ * Keeping a repository here instead of scattered
+ * throughout the application.
+ */
 public class RegEx {
     public static final String ZIP_CODE = "^[0-9]{5}(?:-?[0-9]{4})?$";
 
