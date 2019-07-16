@@ -1,7 +1,6 @@
 package com.aquent.crudapp.service;
 
 import com.aquent.crudapp.dto.PersonDTO;
-import com.aquent.crudapp.dto.PersonDTO;
 import com.aquent.crudapp.exception.NotFoundException;
 import org.junit.Assert;
 import org.junit.Before;
