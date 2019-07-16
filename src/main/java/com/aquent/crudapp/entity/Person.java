@@ -1,5 +1,8 @@
 package com.aquent.crudapp.entity;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -11,6 +14,8 @@ import java.util.Optional;
  * The person entity corresponding to the "person" table in the database.
  */
 @Entity
+@Getter
+@Setter
 @Table(name = "person")
 public class Person implements BaseEntity {
 
@@ -55,86 +60,6 @@ public class Person implements BaseEntity {
     @Column(name = "last_modified_date")
     @LastModifiedDate
     private Date lastModifiedDate;
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public String getStreetAddress() {
-        return streetAddress;
-    }
-
-    public void setStreetAddress(String streetAddress) {
-        this.streetAddress = streetAddress;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public Long getId() { return id; }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    @Override
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    @Override
-    public Date getLastModifiedDate() { return lastModifiedDate; }
-
-    @Override
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
 
     public Optional<Client> getClient() {
         return Optional.ofNullable(client);

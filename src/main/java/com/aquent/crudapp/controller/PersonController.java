@@ -1,19 +1,15 @@
 package com.aquent.crudapp.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.aquent.crudapp.dto.PersonDTO;
 import com.aquent.crudapp.service.ClientService;
 import com.aquent.crudapp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controller for handling basic person management operations.
@@ -59,22 +55,7 @@ public class PersonController {
      * @return create view populated with an empty person
      */
     @GetMapping(value = "create")
-    public ModelAndView create() {
-        ModelAndView mav = new ModelAndView("person/create");
-        mav.addObject("person", new PersonDTO());
-        mav.addObject("clients", clientService.list());
-        mav.addObject("errors", new ArrayList<String>());
-        return mav;
-    }
-
-    /**
-     * Renders an empty form used to create a new person record.
-     *
-     * @param clientId is the client id to default on the person
-     * @return create view populated with an empty person
-     */
-    @GetMapping(value = "create/{clientId}")
-    public ModelAndView create(@PathVariable Long clientId) {
+    public ModelAndView create(@RequestParam(required = false) Long clientId) {
         ModelAndView mav = new ModelAndView("person/create");
 
         PersonDTO person = new PersonDTO();
@@ -83,7 +64,6 @@ public class PersonController {
         mav.addObject("person", person);
         mav.addObject("clients", clientService.list());
         mav.addObject("errors", new ArrayList<String>());
-
         return mav;
     }
 

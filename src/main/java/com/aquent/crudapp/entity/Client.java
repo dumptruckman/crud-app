@@ -1,5 +1,8 @@
 package com.aquent.crudapp.entity;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -9,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Getter @Setter
 @Table(name = "client")
 public class Client implements BaseEntity {
 
@@ -48,96 +52,4 @@ public class Client implements BaseEntity {
     @Column(name = "last_modified_date")
     @LastModifiedDate
     private Date lastModifiedDate;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getWebsiteUri() {
-        return websiteUri;
-    }
-
-    public void setWebsiteUri(String websiteUri) {
-        this.websiteUri = websiteUri;
-    }
-
-    public String getStreetAddress() {
-        return streetAddress;
-    }
-
-    public void setStreetAddress(String streetAddress) {
-        this.streetAddress = streetAddress;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    @Override
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    @Override
-    public Date getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    @Override
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
-    public Set<Person> getContacts() {
-        return contacts;
-    }
-
-    public void setContacts(HashSet<Person> contacts) {
-        this.contacts = contacts;
-    }
 }

@@ -19,7 +19,7 @@
             <a class="btn btn-secondary" href="/person/list">Contacts</a>
         </div>
         <div role="group" class="btn-group mr-2">
-            <a class="btn btn-success" th:href="'/person/create/' + ${client.id}">New Contact</a>
+            <a class="btn btn-success" th:href="'/person/create?clientId=' + ${client.id}">New Contact</a>
             <a class="btn btn-success" th:href="'/client/add/' + ${client.id}">Add Unassigned Contact</a>
         </div>
     </div>

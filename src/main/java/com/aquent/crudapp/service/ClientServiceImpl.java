@@ -2,11 +2,9 @@ package com.aquent.crudapp.service;
 
 import com.aquent.crudapp.dto.ClientDTO;
 import com.aquent.crudapp.entity.Client;
-import com.aquent.crudapp.entity.Person;
 import com.aquent.crudapp.exception.NotFoundException;
 import com.aquent.crudapp.mapping.entity.ClientEntityMapping;
 import com.aquent.crudapp.repo.ClientRepository;
-import com.aquent.crudapp.repo.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -21,9 +19,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Autowired
     Validator validator;
-
-    @Autowired
-    PersonRepository personRepository;
 
     @Autowired
     ClientRepository clientRepository;

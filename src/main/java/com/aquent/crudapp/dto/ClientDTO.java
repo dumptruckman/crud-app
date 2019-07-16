@@ -1,6 +1,8 @@
 package com.aquent.crudapp.dto;
 
 import com.aquent.crudapp.constants.RegEx;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -8,6 +10,8 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 import java.util.TreeSet;
 
+@Getter
+@Setter
 public class ClientDTO implements Comparable<ClientDTO> {
 
     private Long id;
@@ -43,76 +47,8 @@ public class ClientDTO implements Comparable<ClientDTO> {
 
     private Set<PersonDTO> contacts = new TreeSet<>();
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getWebsiteUri() {
-        return websiteUri;
-    }
-
-    public void setWebsiteUri(String websiteUri) {
-        this.websiteUri = websiteUri;
-    }
-
-    public String getStreetAddress() {
-        return streetAddress;
-    }
-
-    public void setStreetAddress(String streetAddress) {
-        this.streetAddress = streetAddress;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public Set<PersonDTO> getContacts() {
-        return contacts;
-    }
-
     @Override
     public int compareTo(ClientDTO other) {
-        return this.getName().compareTo(other.getName());
+        return this.name.compareTo(other.name);
     }
 }

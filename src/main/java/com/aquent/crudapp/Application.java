@@ -14,7 +14,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-@ComponentScan("com.aquent.crudapp")
+@ComponentScan("com.aquent")
 @SpringBootApplication
 public class Application {
 
