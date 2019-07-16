@@ -60,6 +60,7 @@ public class ClientServiceTest {
         assertThat(client.getId(), is(1L));
 
         // Fill test required fields - just need to not be null
+        assertThat(client.getName(), is(notNullValue()));
         assertThat(client.getStreetAddress(), is(notNullValue()));
         assertThat(client.getCity(), is(notNullValue()));
         assertThat(client.getState(), is(notNullValue()));
@@ -92,7 +93,7 @@ public class ClientServiceTest {
         clientService.delete(1L);
 
         try {
-            ClientDTO client = clientService.get(1L);
+            clientService.get(1L);
             Assert.fail("This should not have succeeded.");
         } catch (NotFoundException nfe) {
             assertThat(nfe.getMessage(), endsWith("1"));
