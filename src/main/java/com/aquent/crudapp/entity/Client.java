@@ -26,8 +26,8 @@ public class Client implements BaseEntity {
     @Column(name = "phone_number", length = 10, nullable = false)
     private String phoneNumber;
 
-    @Column(name = "website_uri", length = 50, nullable = false)
-    private String websiteUri;
+    @Column(name = "website_url", length = 50, nullable = false)
+    private String websiteUrl;
 
     @Column(name = "street_address", length = 50, nullable = false)
     private String streetAddress;

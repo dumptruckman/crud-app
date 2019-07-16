@@ -36,7 +36,7 @@ INSERT INTO person (
 INSERT INTO client (
     id,
     name,
-    website_uri,
+    website_url,
     phone_number,
     street_address,
     city,

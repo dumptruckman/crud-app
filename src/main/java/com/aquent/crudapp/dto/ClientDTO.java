@@ -27,7 +27,7 @@ public class ClientDTO implements Comparable<ClientDTO> {
     @NotNull
     @Pattern(regexp = RegEx.WEB_URL, message = "Website URL must be correctly formatted")
     @Size(min = 1, max = 50, message = "Website URL is required with a maximum length of 50")
-    private String websiteUri;
+    private String websiteUrl;
 
     @NotNull
     @Size(min = 1, max = 50, message = "Street address is required with a maximum length of 50")

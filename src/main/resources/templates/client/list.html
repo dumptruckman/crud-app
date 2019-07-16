@@ -30,7 +30,7 @@
             <th:block th:each="client : ${clients}">
                 <tr>
                     <td th:text="${client.name}">Name</td>
-                    <td th:text="${client.websiteUri}">http://www.company.com</td>
+                    <td th:text="${client.websiteUrl}">http://www.company.com</td>
                     <td th:text="${client.phoneNumber}">8888675309</td>
                     <td>
                         <a class="btn btn-primary" th:href="'/client/' + ${client.id}">View</a>

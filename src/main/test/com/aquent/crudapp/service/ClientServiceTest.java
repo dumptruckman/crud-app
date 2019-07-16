@@ -37,7 +37,7 @@ public class ClientServiceTest {
         client.setCity("Somewhere");
         client.setState("NC");
         client.setZipCode("12345");
-        client.setWebsiteUri("http://www.newcorp.services");
+        client.setWebsiteUrl("http://www.newcorp.services");
         client.setPhoneNumber("8888675309");
 
         newClient = client;
@@ -65,7 +65,7 @@ public class ClientServiceTest {
         assertThat(client.getCity(), is(notNullValue()));
         assertThat(client.getState(), is(notNullValue()));
         assertThat(client.getZipCode(), is(notNullValue()));
-        assertThat(client.getWebsiteUri(), is(notNullValue()));
+        assertThat(client.getWebsiteUrl(), is(notNullValue()));
         assertThat(client.getPhoneNumber(), is(notNullValue()));
     }
 

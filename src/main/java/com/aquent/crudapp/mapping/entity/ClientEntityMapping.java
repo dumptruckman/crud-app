@@ -24,7 +24,7 @@ public class ClientEntityMapping implements EntityMapping<Client, ClientDTO> {
     public Client toEntity(ClientDTO dto, Client entity) {
 
         entity.setName(dto.getName());
-        entity.setWebsiteUri(dto.getWebsiteUri());
+        entity.setWebsiteUrl(dto.getWebsiteUrl());
         entity.setPhoneNumber(dto.getPhoneNumber().replaceAll("[^0-9]", StringUtils.EMPTY));
         entity.setStreetAddress(dto.getStreetAddress());
         entity.setCity(dto.getCity());
@@ -45,7 +45,7 @@ public class ClientEntityMapping implements EntityMapping<Client, ClientDTO> {
         ClientDTO dto = new ClientDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
-        dto.setWebsiteUri(entity.getWebsiteUri());
+        dto.setWebsiteUrl(entity.getWebsiteUrl());
         dto.setPhoneNumber(entity.getPhoneNumber());
         dto.setStreetAddress(entity.getStreetAddress());
         dto.setCity(entity.getCity());
